@@ -20,13 +20,13 @@ int main()
 
 
 	std::cout << "result1: " << result1 << std::endl;
-	std::cout << "Single thread integral: " << std::chrono::duration_cast<std::chrono::microseconds>(end1 - start1).count() << "ms" << std::endl;
+	std::cout << "Single thread integral: " << std::chrono::duration_cast<std::chrono::microseconds>(end1 - start1).count() << "microseconds" << std::endl;
 
 	std::cout << "result2: " << result2 << std::endl;
-	std::cout << "Multy thread integral: " << std::chrono::duration_cast<std::chrono::microseconds>(end2 - start2).count() << "ms" << std::endl;
+	std::cout << "Multy thread integral: " << std::chrono::duration_cast<std::chrono::microseconds>(end2 - start2).count() << "microseconds" << std::endl;
 
 	std::cout << "result3: " << result3 << std::endl;
-	std::cout << "Multy thread integral with reduction: " << std::chrono::duration_cast<std::chrono::microseconds>(end3 - start3).count() << "ms" << std::endl;
+	std::cout << "Multy thread integral with reduction: " << std::chrono::duration_cast<std::chrono::microseconds>(end3 - start3).count() << "microseconds" << std::endl;
 	
 	return 0;
 }
