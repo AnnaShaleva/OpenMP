@@ -1,10 +1,13 @@
-int* row_product(int** a, int* b, int m, int n, int* threads_num)
+int* row_product(int** a, int* b, int m, int n, unsigned int threads_num)
 {
 	int* result = new int[m];
-	#pragma omp parallel shared(a, b, result) num_threads(*threads_num)
+	for(int i = 0; i < m; i++)
 	{
-		std::cout << omp_get_num_threads() << std::endl;
-		#pragma omp for
+		result[i] = 0;
+	}
+	#pragma omp parallel shared(a, b, result) num_threads(threads_num)
+	{
+		#pragma omp for nowait
 		for(int i = 0; i < m; i++)
 		{
 			for(int j = 0; j < n; j++)
@@ -19,6 +22,10 @@ int* row_product(int** a, int* b, int m, int n, int* threads_num)
 int* column_product(int** a, int* b, int m, int n, unsigned int threads_num)
 {
 	int* result = new int[m];
+	for(int i = 0; i < m; i++)
+	{
+		result[i] = 0;
+	}
 	#pragma omp parallel shared(a, b, result) num_threads(threads_num)
 	{
 		#pragma omp for
