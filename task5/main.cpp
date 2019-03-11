@@ -7,8 +7,14 @@
 
 int main()
 {
-	std::ofstream outfile;
-	outfile.open("out.txt");
+	std::ofstream row_outfile;
+	row_outfile.open("out_row_product.txt");
+
+	std::ofstream column_outfile;
+	column_outfile.open("out_column_product.txt");
+
+	std::ofstream block_outfile;
+	block_outfile.open("out_block_product.txt");		
 	 
 	std::srand(unsigned(std::time(0)));
 	
@@ -16,8 +22,15 @@ int main()
 	int max_dimention = 100000;
 
 	for(int dim = 10; dim < max_dimention; dim*=10)
-		outfile << dim << " ";
-	outfile << std::endl;
+	{
+		row_outfile << dim << " ";
+		column_outfile << dim << " ";
+		block_outfile << dim << " ";
+	}
+	row_outfile << std::endl;
+	column_outfile << dim << " ";
+	block_outfile << dim << " ";
+
 	for(int threads_number = 1; threads_number < max_threads_number+1; threads_number++)
 	{
 		std::cout << "Threads number: " << threads_number << std::endl;
@@ -46,11 +59,25 @@ int main()
 			}
 			//std::cout << std::endl;
 			
-			auto start = std::chrono::system_clock::now();
-			int* result = row_product(a, b, m, n, threads_number);
-			auto end = std::chrono::system_clock::now();
+			auto start1 = std::chrono::system_clock::now();
+			int* result1 = row_product(a, b, m, n, threads_number);
+			auto end1 = std::chrono::system_clock::now();
 
-			outfile << std::chrono::duration_cast<std::chrono::microseconds>(end - start).count() << " ";
+			row_outfile << std::chrono::duration_cast<std::chrono::microseconds>(end1 - start1).count() << " ";
+
+			auto start2 = std::chrono::system_clock::now();
+			int* result2 = column_product(a, b, m, n, threads_number);
+			auto end2 = std::chrono::system_clock::now();
+
+			column_outfile << std::chrono::duration_cast<std::chrono::microseconds>(end2 - start2).count() << " ";
+
+			auto start3 = std::chrono::system_clock::now();
+			int* result3 = block_product(a, b, m, n, threads_number);
+			auto end3 = std::chrono::system_clock::now();
+
+			block_outfile << std::chrono::duration_cast<std::chrono::microseconds>(end3 - start3).count() << " ";
+
+
 
 			for(int i =0; i < m; i++)
 			{
@@ -60,9 +87,15 @@ int main()
 			delete[] b;
 			delete[] result;
 		}
-		outfile << std::endl;
+		row_outfile << std::endl;	
+		column_outfile << std::endl;
+		block_outfile << std::endl;
+
 	}
-	outfile.close();
+	row_outfile.close();	
+	column_outfile.close();
+	block_outfile.close();
+
 	return 0;
 }
 
