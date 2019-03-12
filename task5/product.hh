@@ -47,13 +47,24 @@ int* block_product(int** a, int* b, int m, int n, unsigned int threads_num)
 	{
 		result[i] = 0;
 	}
-	//quantity of horizontal blocks
-	int s =
-	//quantity of vertical blocks
-	int q = 	
-	for(int block_num = 0; block_num < s * q; block_num++)
+	#pragma omp parallel shared(a, b, result) num_threads(threads_num)
 	{
-		int i = //
-		int j = //
-		result[i] += b[j] * a[i][j];
+		int s = omp_get_num_threads();
+		int q = s;
+		int block_height = m / s;
+		int block_width = n / q;
+
+		#pragma omp for
+		for(int block_count = 0; block_count < s*q; block_count++)
+		{
+			int i = block_count / q;
+			int j = block_count % q;
+			for(int k = i*block_height; k < (i+1) * block_height; k++)
+				for(int l = j*block_width; l < (j+1) * block_width; l++)
+					result[k] += a[k][l] * b[l];
+		}
 	}
+	return result;
+}
+
+

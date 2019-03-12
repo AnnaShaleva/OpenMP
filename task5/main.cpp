@@ -18,23 +18,23 @@ int main()
 	 
 	std::srand(unsigned(std::time(0)));
 	
-	int max_threads_number = 15;
+	int max_threads_number = 16;
 	int max_dimention = 100000;
 
-	for(int dim = 10; dim < max_dimention; dim*=10)
+	for(int dim = 12; dim < max_dimention; dim*=10)
 	{
 		row_outfile << dim << " ";
 		column_outfile << dim << " ";
 		block_outfile << dim << " ";
 	}
 	row_outfile << std::endl;
-	column_outfile << dim << " ";
-	block_outfile << dim << " ";
+	column_outfile << std::endl;
+	block_outfile << std::endl;
 
-	for(int threads_number = 1; threads_number < max_threads_number+1; threads_number++)
+	for(int threads_number = 1; threads_number < max_threads_number+1; threads_number*=2)
 	{
 		std::cout << "Threads number: " << threads_number << std::endl;
-		for(int dimention = 10; dimention < max_dimention; dimention *= 10)
+		for(int dimention = 12; dimention < max_dimention; dimention *= 10)
 		{
 			std::cout << "Dimention: " << dimention << std::endl;
 			int m = dimention;
@@ -85,7 +85,9 @@ int main()
 			}
 			delete[] a;
 			delete[] b;
-			delete[] result;
+			delete[] result1;
+			delete[] result2;
+			delete[] result3;
 		}
 		row_outfile << std::endl;	
 		column_outfile << std::endl;
